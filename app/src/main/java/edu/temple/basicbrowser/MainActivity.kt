@@ -32,13 +32,19 @@ class MainActivity : AppCompatActivity() {
 
 
         imageButton.setOnClickListener {
-            val userInput = urlEditText.text
+            var userInput = urlEditText.text
+
+            if(userInput.contains("www.") && !userInput.contains("https://")){
+                userInput.insert(0,"https://")
+            }else if(!userInput.contains("https://www.")){
+                userInput.insert(0,"https://www.")
+            }
+
             requestQueue.add(
                 StringRequest(Request.Method.GET, "$userInput", {
                     webView.loadDataWithBaseURL("", it, "text/html", "utf-8", null)
                 }, {})
             )
-            // Allow your browser to intercept hyperlink clicks
         }
 
 
